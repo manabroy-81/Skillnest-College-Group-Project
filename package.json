@@ -1,0 +1,30 @@
+{
+  "name": "skillnest-college-group-project",
+  "version": "1.0.0",
+  "description": "",
+  "license": "ISC",
+  "author": "manab",
+  "type": "commonjs",
+  "main": "index.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node --watch server.js",
+    "check": "node --check app.js && node --check server.js && node --check config/passport.js && node --check controllers/postRouters.js && node --check controllers/commentRouters.js && node --check controllers/userRouters.js"
+  },
+  "dependencies": {
+    "cloudinary": "^1.41.3",
+    "connect-mongo": "^6.0.0",
+    "dotenv": "^17.4.2",
+    "ejs": "^6.0.1",
+    "ejs-mate": "^4.0.0",
+    "express": "^5.2.1",
+    "express-session": "^1.19.0",
+    "joi": "^18.2.9",
+    "method-override": "^3.0.0",
+    "mongoose": "^9.9.1",
+    "multer": "^2.3.0",
+    "multer-storage-cloudinary": "^4.0.0",
+    "passport": "^0.7.0",
+    "passport-local": "^1.0.0"
+  }
+}

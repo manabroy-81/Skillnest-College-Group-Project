@@ -1,0 +1,18 @@
+<% layout("layouts/boilerplate.ejs") %>
+<main class="container py-5" style="max-width: 460px">
+  <h1 class="h3 mb-4">Log in to SkillNest</h1>
+  <form action="/auth/login" method="POST" class="card card-body shadow-sm">
+    <input type="hidden" name="returnTo" value="<%= returnTo %>" />
+    <label class="form-label" for="username">Username</label>
+    <input class="form-control mb-3" id="username" name="username" required autofocus />
+    <label class="form-label" for="password">Password</label>
+    <div class="input-group mb-4">
+      <input class="form-control" id="password" name="password" type="password" required />
+      <button class="btn btn-outline-secondary" type="button" data-password-toggle="#password" aria-label="Show password" aria-pressed="false">
+        <i class="fa-regular fa-eye" aria-hidden="true"></i>
+      </button>
+    </div>
+    <button class="btn btn-primary">Log in</button>
+  </form>
+  <p class="mt-3">New here? <a href="/auth/register">Create an account</a>.</p>
+</main>

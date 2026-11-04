@@ -1,0 +1,6 @@
+<% layout("layouts/boilerplate.ejs") %>
+<main class="container py-5 text-center">
+  <h1 class="display-6"><%= error.statusCode || 500 %></h1>
+  <p class="lead"><%= error.message || "Something went wrong." %></p>
+  <a class="btn btn-primary" href="/feed">Return to feed</a>
+</main>

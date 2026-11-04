@@ -1,0 +1,99 @@
+<% layout("layouts/boilerplate.ejs") %>
+
+<main class="post-detail container py-4 py-md-5">
+  <a class="post-detail__back" href="/feed">
+    <i class="fa-solid fa-arrow-left" aria-hidden="true"></i>
+    Back to feed
+  </a>
+
+  <article class="post-detail__card">
+    <header class="post-detail__header">
+      <a class="post-detail__avatar" href="<%= post.owner ? `/users/${post.owner._id}` : '#' %>" aria-label="View author's profile">
+        <img src="<%= post.owner && post.owner.profileImage ? post.owner.profileImage : '/assets/manab photo.jpeg' %>"
+         alt="<%= post.owner ? (post.owner.fullName || post.owner.username) : 'SkillNest member' %>'s profile image" />
+      </a>
+      <div class="flex-grow-1 min-w-0">
+        <% if (post.owner) { %>
+          <a class="post-detail__author" href="/users/<%= post.owner._id %>"><%= post.owner.fullName || post.owner.username %></a>
+        <% } else { %>
+          <span class="post-detail__author">SkillNest member</span>
+        <% } %>
+        <p class="post-detail__date mb-0">
+          <i class="fa-regular fa-calendar" aria-hidden="true">
+
+          </i><%= post.createdAt.toLocaleDateString() %></p>
+      </div>
+    </header>
+
+    <div class="post-detail__body">
+      <p class="post-detail__content"><%= post.content %></p>
+      <% if (post.image) { %>
+        <img src="<%= post.image %>" class="post-detail__image" alt="Image shared by <%= post.owner ? (post.owner.fullName || post.owner.username) : 'a SkillNest member' %>" />
+      <% } %>
+    </div>
+
+    <footer class="post-detail__actions">
+      <form action="/feed/<%= post._id %>/like" method="POST">
+        <button class="post-detail__action <%= post.likes.some((id) => id.equals(currentUser._id)) ? 'is-liked' : '' %>" type="submit" aria-label="Like post">
+          <i class="<%= post.likes.some((id) => id.equals(currentUser._id)) ? 'fa-solid' : 'fa-regular' %> fa-thumbs-up" aria-hidden="true">
+          </i><span>Like</span>
+        </button>
+      </form>
+      <a class="post-detail__action" href="#comments"><i class="fa-regular fa-comment" aria-hidden="true"></i><span>Comment</span></a>
+      <span class="post-detail__stat"><strong><%= post.likes.length %></strong> <%= post.likes.length === 1 ? 'like' : 'likes' %>
+      </span>
+    </footer>
+  </article>
+
+  <section id="comments" class="comments-card" aria-labelledby="comments-heading">
+    <div class="comments-card__heading">
+      <div>
+        <h1 id="comments-heading">Comments <span><%= comments.length %></span></h1>
+      </div>
+      <i class="fa-regular fa-comments" aria-hidden="true"></i>
+    </div>
+
+      <form action="/feed/<%= post._id %>/comments" method="POST" class="comment-composer needs-validation" novalidate>
+        <input class="form-control" name="comment[text]" maxlength="500" placeholder="Share a thoughtful comment…" aria-label="Write a comment" required />
+         <div class="invalid-feedback">Please write your thought</div>
+        <button class="btn comment-composer__submit" type="submit">
+          <i class="fa-solid fa-paper-plane" aria-hidden="true">
+          </i> Post</button>
+      </form>
+
+    <div class="comments-list">
+      <% if (!comments.length) { %>
+        <div class="comments-card__empty"><i class="fa-regular fa-message" aria-hidden="true">
+
+        </i><p class="mb-0">No comments yet. Start the conversation!</p></div>
+      <% } %>
+      <% for (const comment of comments) { %>
+        <article class="comment-item">
+          <img class="comment-item__avatar" src="<%= comment.author && comment.author.profileImage ? comment.author.profileImage : '/assets/manab photo.jpeg' %>"
+           alt="<%= comment.author ? (comment.author.fullName || comment.author.username) : 'Deleted user' %>'s profile image" />
+          <div class="comment-item__content">
+            <div class="comment-item__meta"><strong><%= comment.author ? (comment.author.fullName || comment.author.username) : "Deleted user" %>
+            </strong>
+            <span><%= comment.createdAt.toLocaleDateString() %></span>
+          </div>
+            <p><%= comment.text %></p>
+            <% if (currentUser && comment.author && comment.author._id.equals(currentUser._id)) { %>
+              <div class="comment-item__controls">
+                <details>
+                  <summary><i class="fa-regular fa-pen-to-square" aria-hidden="true"></i> Edit</summary>
+                  <form action="/feed/<%= post._id %>/comments/<%= comment._id %>?_method=PUT" method="POST" class="comment-item__edit-form">
+                    <input class="form-control form-control-sm" name="comment[text]" value="<%= comment.text %>" maxlength="500" aria-label="Edit comment" required />
+                    <button class="btn btn-sm" type="submit">Save changes</button>
+                  </form>
+                </details>
+                <form action="/feed/<%= post._id %>/comments/<%= comment._id %>?_method=DELETE" method="POST" onsubmit="return confirm('Delete this comment?');">
+                  <button class="comment-item__delete" type="submit"><i class="fa-regular fa-trash-can" aria-hidden="true"></i> Delete</button>
+                </form>
+              </div>
+            <% } %>
+          </div>
+        </article>
+      <% } %>
+    </div>
+  </section>
+</main>

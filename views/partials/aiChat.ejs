@@ -1,0 +1,79 @@
+<section class="ai-chat" aria-label="SkillNest AI assistant">
+  <button
+    class="ai-chat__launcher"
+    type="button"
+    aria-expanded="false"
+    aria-controls="ai-chat-panel"
+    aria-label="Open SkillNest AI assistant"
+  >
+    <i class="fa-solid fa-sparkles" aria-hidden="true"></i>
+    <span>Ask AI</span>
+  </button>
+
+  <div class="ai-chat__panel" id="ai-chat-panel" hidden>
+    <header class="ai-chat__header">
+      <div class="ai-chat__title">
+        <i class="fa-solid fa-robot"></i>
+        <div>
+          <strong>SkillNest AI</strong><small>Powered by Gemini Flash</small>
+        </div>
+      </div>
+      <div class="ai-chat__header-actions">
+        <button
+          class="ai-chat__header-button ai-chat__history-toggle"
+          type="button"
+          aria-expanded="false"
+          aria-controls="ai-chat-history"
+          aria-label="Open chat history"
+        >
+          <i class="fa-solid fa-clock-rotate-left" aria-hidden="true"></i>
+        </button>
+        <button
+          class="ai-chat__close"
+          type="button"
+          aria-label="Close AI assistant"
+        >
+          <i class="fa-solid fa-xmark" aria-hidden="true"></i>
+        </button>
+      </div>
+    </header>
+    <div class="ai-chat__messages" aria-live="polite"></div>
+    <aside
+      class="ai-chat__history"
+      id="ai-chat-history"
+      hidden
+      aria-label="Chat history"
+    >
+      <div class="ai-chat__history-heading">
+        <strong>Chat history</strong>
+        <button class="ai-chat__history-back" type="button">
+          <i class="fa-solid fa-arrow-left" aria-hidden="true"></i> Back
+        </button>
+      </div>
+      <button class="ai-chat__new-chat" type="button">
+        <i class="fa-solid fa-pen-to-square" aria-hidden="true"></i> New chat
+      </button>
+      <div class="ai-chat__history-list"></div>
+      <button class="ai-chat__clear-history" type="button">
+        Clear all history
+      </button>
+    </aside>
+    <form class="ai-chat__form">
+      <label class="visually-hidden" for="ai-chat-input"
+        >Ask SkillNest AI</label
+      >
+      <textarea
+        id="ai-chat-input"
+        class="ai-chat__input"
+        rows="1"
+        maxlength="2000"
+        placeholder="Ask anything..."
+        required
+      ></textarea>
+      <button class="ai-chat__cancel-edit" type="button" hidden>Cancel</button>
+      <button class="ai-chat__send" type="submit" aria-label="Send message">
+        <i class="fa-solid fa-paper-plane" aria-hidden="true"></i>
+      </button>
+    </form>
+  </div>
+</section>

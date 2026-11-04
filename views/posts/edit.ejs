@@ -1,0 +1,53 @@
+<% layout("layouts/boilerplate.ejs") %>
+
+<main class="post-editor container py-4 py-md-5">
+  <section class="post-editor__card" aria-labelledby="edit-post-title">
+    <header class="post-editor__header">
+      <div>
+        <a class="post-editor__back" href="/feed"><i class="fa-solid fa-arrow-left" aria-hidden="true"></i> Back to feed</a>
+        <h1 id="edit-post-title">Edit post</h1>
+        <p>Update your thoughts or replace the photo whenever you need to.</p>
+      </div>
+      <span class="post-editor__header-icon"><i class="fa-regular fa-pen-to-square" aria-hidden="true"></i></span>
+    </header>
+
+    <form action="/feed/<%= post._id %>?_method=PUT" method="POST" enctype="multipart/form-data" class="post-editor__form needs-validation" novalidate>
+      <div class="post-editor__field">
+        <label for="content">Your post</label>
+        <textarea class="form-control" id="content" name="post[content]" rows="6" maxlength="1000" required><%= post.content %></textarea>
+        <div class="invalid-feedback">Please write something before saving.</div>
+        <p class="post-editor__hint"><i class="fa-regular fa-lightbulb" aria-hidden="true"></i> Keep your update clear and helpful.</p>
+      </div>
+
+      <div class="post-editor__media">
+        <div class="post-editor__media-heading">
+          <div>
+            <label for="image">Photo</label>
+            <p>Optional - upload a new image only if you want to replace the current one.</p>
+          </div>
+          <% if (post.image) { %><span class="post-editor__status"><i class="fa-solid fa-check" aria-hidden="true"></i> Image attached</span><% } %>
+        </div>
+
+        <% if (post.image) { %>
+          <div class="post-editor__current-image">
+            <img src="<%= post.image %>" alt="Current post image" />
+            <span>Current photo</span>
+          </div>
+        <% } else { %>
+          <div class="post-editor__no-image"><i class="fa-regular fa-image" aria-hidden="true"></i><span>No photo attached to this post.</span></div>
+        <% } %>
+
+        <label class="post-editor__upload" for="image">
+          <span class="post-editor__upload-icon"><i class="fa-solid fa-arrow-up-from-bracket" aria-hidden="true"></i></span>
+          <span><strong>Choose a replacement photo</strong><small>PNG, JPEG, GIF, or WebP - maximum 2 MB</small></span>
+        </label>
+        <input class="visually-hidden" id="image" name="image" type="file" accept="image/png,image/jpeg,image/gif,image/webp" />
+      </div>
+
+      <footer class="post-editor__footer">
+        <a href="/feed" class="post-editor__cancel">Cancel</a>
+        <button type="submit" class="post-editor__save"><i class="fa-solid fa-check" aria-hidden="true"></i> Save changes</button>
+      </footer>
+    </form>
+  </section>
+</main>

@@ -1,0 +1,48 @@
+<% if (currentUser) { %>
+  <form action="/feed" method="POST" enctype="multipart/form-data" class="create-post-form needs-validation" novalidate>
+    <div class="create-overlay" aria-hidden="true">
+      <section class="create-box" role="dialog" aria-modal="true" aria-labelledby="create-post-title">
+        <header class="create-header">
+          <div class="user-info">
+            <img src="<%= currentUser.profileImage || '/assets/manab photo.jpeg' %>" class="profile-img" alt="Your profile image" />
+            <div>
+              <h1 id="create-post-title"><%= currentUser.fullName || currentUser.username %></h1>
+            </div>
+          </div>
+          <button class="close-btn" type="button" aria-label="Close create post"><i class="fa-solid fa-xmark" aria-hidden="true"></i></button>
+        </header>
+
+        <div class="create-content">
+          <div class="post-details">
+            <label for="caption">WHAT'S ON YOUR MIND?</label>
+            <textarea class="form-control" placeholder="Share what you're learning, building, or thinking about…" id="caption" name="post[content]" maxlength="1000" required></textarea>
+            <div class="create-post__meta"><span>Words should be.</span><span id="captionCount">0 / 1000</span></div>
+            <div class="invalid-feedback">Please write something before sharing your post.</div>
+          </div>
+
+          <div class="upload-area" id="postUploadArea">
+            <input id="postImageUpload" class="visually-hidden" type="file" name="image" accept="image/png,image/jpeg,image/gif,image/webp" />
+            <label class="upload-area__label" for="postImageUpload">
+              <span class="upload-area__icon"><i class="fa-regular fa-image" aria-hidden="true"></i></span>
+              <strong>Add a photo</strong>
+              <span>PNG, JPEG, GIF, or WebP · up to 2 MB</span>
+              <span class="upload-area__browse">Choose a file</span>
+            </label>
+            <div class="upload-area__preview" hidden>
+              <img id="postImagePreview" alt="Selected image preview" />
+              <button class="upload-area__remove" type="button" aria-label="Remove selected image"><i class="fa-solid fa-xmark" aria-hidden="true"></i></button>
+            </div>
+          </div>
+        </div>
+
+        <footer class="create-footer">
+          <span><i class="fa-solid fa-lock" aria-hidden="true"></i> Visible to the SkillNest community</span>
+          <div class="create-footer__actions">
+           
+            <button class="share-btn" type="submit">Share post</button>
+          </div>
+        </footer>
+      </section>
+    </div>
+  </form>
+<% } %>

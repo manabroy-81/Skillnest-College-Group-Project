@@ -1,0 +1,52 @@
+<% layout("layouts/boilerplate.ejs") %>
+<main class="profile-page container py-4">
+  <section class="card shadow-sm overflow-hidden mb-4">
+
+    <% if (profileUser.bannerImage) { %>
+      <img src="<%= profileUser.bannerImage %>" class="profile-page__banner" alt="Profile banner" />
+    <% } %>
+    <div class="card-body">
+      <img src="<%= profileUser.profileImage || '/assets/manab photo.jpeg' %>"
+       class="profile-page__avatar rounded-circle" width="80" height="80" alt="<%= profileUser.fullName || profileUser.username %>'s profile image" />
+      <h1 class="h3 mt-2"><%= profileUser.fullName || profileUser.username %>
+      </h1>
+      <p class="text-muted">@<%= profileUser.username %>
+      </p>
+      <p><%= profileUser.bio || "No bio yet" %></p>
+      <p class="text-dark">
+        <a class="text-decoration-none text-dark fw-medium profile-follow" href="/users/<%= profileUser._id %>/followers">
+          <%= profileUser.followers.length %> Followers
+        </a> 
+         <a class="text-decoration-none text-dark fw-medium profile-follow" href="/users/<%= profileUser._id %>/following">
+          <%= profileUser.following.length %> Following
+        </a>
+        </p>
+
+      <% if (currentUser && currentUser._id.equals(profileUser._id)) { %>
+        <a class="btn btn-outline-dark " href="/users/<%= profileUser._id %>/edit">Edit profile</a>
+        <% } else if (currentUser) { %>
+          <form action="/users/<%= profileUser._id %>/follow" method="POST" class="d-inline">
+            <button class="btn btn-primary">
+            <%= currentUser.following.some((id) => id.equals(profileUser._id)) ? "Unfollow" : "Follow" %>
+          </button>
+        </form>
+        <% } %>
+    </div>
+  </section>
+<div class="personal-post">
+  <h2 class="h4">
+    <%= currentUser && currentUser._id.equals(profileUser._id) ? "My posts" : "Posts" %>
+  </h2>
+  <% for (const post of posts) { %>
+    <a class="card card-body mb-2 text-decoration-none text-dark" href="/feed/<%= post._id %>">
+      <p class="mb-2">
+        <%= post.content %>
+      </p>
+      <% if (post.image) { %>
+        <img src="<%= post.image %>" class="img-fluid rounded" style="max-height: 320px; object-fit: cover;" alt="Post image" />
+        <% } %>
+    </a>
+  <% } %>
+  <% if (!posts.length) { %><p class="text-muted">No posts yet.</p><% } %>
+  </div>
+</main>

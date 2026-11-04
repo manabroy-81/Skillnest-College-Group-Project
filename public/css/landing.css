@@ -1,0 +1,32 @@
+.landing-page { min-height: calc(100vh - 64px); background: radial-gradient(circle at 80% 0%, #dceeff 0, transparent 32%), #f8fafc; padding: clamp(3rem, 8vw, 7rem) max(1.25rem, calc((100% - 1120px) / 2)); }
+.landing-hero { align-items: center; display: grid; gap: clamp(2.5rem, 7vw, 7rem); grid-template-columns: 1.1fr .9fr; margin: 0 auto; max-width: 1120px; }
+.landing-eyebrow { color: #2f3337; font-size: .88rem; font-weight: 700; letter-spacing: .04em; text-transform: uppercase; }
+.landing-eyebrow i { color: #8a85a9; margin-right: .35rem; }
+.landing-copy h1 { color: #10527e; font-size: clamp(2.6rem, 5vw, 4.7rem); font-weight: 800; letter-spacing: -.055em; line-height: 1.03; margin: .8rem 0 1.25rem; max-width: 650px; }
+.landing-lede { color: #526175; font-size: clamp(1rem, 1.5vw, 1.17rem); line-height: 1.75; max-width: 570px; }
+.landing-actions { display: flex; flex-wrap: wrap; gap: .8rem; margin-top: 2rem; }
+.landing-actions a { border-radius: 10px; font-weight: 700; padding: .78rem 1.2rem; text-decoration: none; transition: transform .18s ease, box-shadow .18s ease; }
+.landing-actions a:hover { transform: translateY(-2px); }
+.landing-primary { background: #f08e0f; box-shadow: 0 8px 18px rgba(23, 45, 68, .18); color: #fff; }
+.landing-primary i { margin-left: .45rem; }
+.landing-secondary { border: 1px solid #cbd5e1; color: #263b50; }
+.landing-note { color: #000000; font-size: .9rem; margin-top: 1.25rem; }
+.landing-note a { color: #5c46e9; font-weight: 700; }
+.landing-preview { background: #fff; border: 1px solid #d9e1ea; border-radius: 18px; box-shadow: 0 26px 60px rgba(39, 66, 92, .16); overflow: hidden; padding: 1.1rem; transform: rotate(3deg); }
+.preview-top { border-bottom: 1px solid #e9eef3; display: flex; gap: .35rem; margin: -1.1rem -1.1rem 1.2rem; padding: .8rem 1rem; }
+.preview-top span { background: #d7e0e8; border-radius: 50%; height: 8px; width: 8px; }.preview-top span:first-child { background: #fb8c8c; }.preview-top span:nth-child(2) { background: #f4ce72; }
+.preview-profile { align-items: center; display: flex; gap: .7rem; }
+.preview-avatar { align-items: center; background: #d9efff; border-radius: 50%; color: #285675; display: flex; font-weight: 800; height: 38px; justify-content: center; width: 38px; }
+.preview-profile strong,.preview-profile small { display: block; }.preview-profile small { color: #8391a1; font-size: .75rem; margin-top: .1rem; }
+.preview-lines { margin: 1.2rem 0; }.preview-lines i { background: #dce4eb; border-radius: 8px; display: block; height: 8px; margin-bottom: .5rem; width: 100%; }
+.preview-lines i:nth-child(2) { width: 78%; }.preview-lines i:nth-child(3) { width: 48%; }
+.preview-image { align-items: center; background: linear-gradient(135deg, #bde9f7, #d9d0ff); border-radius: 10px; color: #445d84; display: flex; font-size: 2.8rem; height: 160px; justify-content: center; }
+.preview-reactions { color: #6d7d90; display: flex; gap: 1.1rem; font-size: .85rem; padding-top: 1rem; }.preview-reactions i { color: #596bb8; margin-right: .2rem; }
+.landing-features { display: grid; gap: 1rem; grid-template-columns: repeat(3, 1fr); margin: clamp(4rem, 10vw, 7rem) auto 0; max-width: 1120px; }
+.landing-features article { background: rgba(255, 238, 255, 0.65); border: 1px solid #787ce0; border-radius: 14px; padding: 1.35rem; }
+.landing-features article > i { color: #ff47a6; font-size: 1.25rem; }
+.landing-features h2 { color: #1d2b3a; font-size: 1.05rem; font-weight: 750; margin: .8rem 0 .35rem; }
+.landing-features p { color: #108c71; font-size: .9rem; line-height: 1.55; margin: 0; }
+@media (max-width: 767px) { .landing-hero { grid-template-columns: 1fr; }.landing-preview { margin: 1rem auto 0; max-width: 390px; transform: rotate(1deg); }
+.landing-features { grid-template-columns: 1fr; }.landing-page { padding-bottom: 3rem; } }
+@media (max-width: 400px) { .landing-page { padding-left: 1rem; padding-right: 1rem; }.landing-copy h1 { font-size: 2.35rem; }.landing-actions { flex-direction: column; }.landing-actions a { text-align: center; width: 100%; }.preview-image { height: 130px; } }

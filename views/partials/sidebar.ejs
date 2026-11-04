@@ -1,0 +1,49 @@
+<div class="sidebar-box">
+  <button class="toggle-btn" type="button" onclick="toggleSidebar()">
+    <i class="fa-regular fa-eye-slash"></i>
+  </button>
+
+  <div class="profile-info">
+      <div class="cover">
+        <img src="<%= currentUser.bannerImage || '/assets/microsoft.jpg' %>" alt="Profile banner" />
+      </div>
+      <div class="profile">
+        <img src="<%= currentUser.profileImage || '/assets/manab photo.jpeg' %>" alt="Profile image" />
+      </div>
+      <div class="user-detail">
+        <a class="text-decoration-none text-dark" href="/users/<%= currentUser._id %>">
+          <small>
+            <%= currentUser.fullName || currentUser.username %>
+          </small>
+        </a>
+        <p class="text-muted"><%= currentUser.bio || 'Bio' %></p>
+      </div>
+      <div class="d-flex justify-content-center gap-4 text-align-center mb-3">
+        <a class="following text-decoration-none text-dark" href="/users/<%= currentUser._id %>/following">
+          <h6 class="mb-0"><%= currentUser.following.length %>
+          </h6>
+          <small>Following</small>
+        </a>
+        <a class="followers text-decoration-none text-dark" href="/users/<%= currentUser._id %>/followers">
+          <h6 class="mb-0"><%= currentUser.followers.length %>
+          </h6>
+          <small >Followers</small>
+        </a>
+      </div>
+      <a class="btn btn-primary w-100 mb-3" href="/users/<%= currentUser._id %>"><i class="fa-solid fa-user me-2"></i>My profile</a>
+    </div>
+    <hr />
+    <p class="px-3 mb-2 fw-semibold">My recent posts</p>
+    <% for (const post of currentUserPosts) { %>
+      <a class="col-lg-11 ms-2 mb-2 d-block text-decoration-none text-dark" href="/feed/<%= post._id %>">
+        <div class="card card-shadow post-card"><div class="card-body">
+          <p class="mb-0"><%= post.content %>
+          </p>
+        </div>
+      </div>
+    </a>
+    <% } %>
+    <% if (!currentUserPosts.length) { %>
+      <p class="px-3 text-muted small">Your posts will appear here....</p>
+    <% } %>
+</div>

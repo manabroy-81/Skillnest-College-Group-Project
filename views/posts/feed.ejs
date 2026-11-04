@@ -1,0 +1,96 @@
+<% layout("layouts/boilerplate.ejs") %>
+
+<div class="page-layout">
+  <aside id="sidebar"><%- include("../partials/sidebar.ejs") %></aside>
+
+  <!-- Main Content -->
+  <main id="main-content">
+    <div class="row">
+      <button
+        id="show-sidebar-btn"
+        class="btn btn-dark"  
+        onclick="toggleSidebar()"
+      >
+        ☰
+      </button>
+      <% for (const post of posts) { %>
+      <% const isOwner = post.owner && post.owner._id.equals(currentUser._id); %>
+       <div class="col-12 col-md-6 col-xxl-4 mb-3 all-card">
+        <div class="card card-shadow post-card">
+         
+          <div
+            class="card-header bg-white border-0 d-flex justify-content-between"
+          >
+            <div class="d-flex align-items-center">
+              <img
+                src="<%= post.owner && post.owner.profileImage ? post.owner.profileImage : '/assets/manab photo.jpeg' %>"
+                class="rounded-circle"
+                width="50"
+                height="50"
+                alt="<%= post.owner ? (post.owner.fullName || post.owner.username) : 'SkillNest member' %>'s profile image"
+              />
+              <div class="ms-3">
+                <% if (post.owner) { %>
+                  <a class="text-decoration-none text-dark" href="/users/<%= post.owner._id %>">
+                    <h6 class="mb-0"><%= post.owner.fullName || post.owner.username %></h6>
+                  </a>
+                <% } else { %>
+                  <h6 class="mb-0">SkillNest member</h6>
+                <% } %>
+                <small class="text-muted"><%= post.createdAt.toLocaleDateString() %>
+                </small>
+              </div>
+            </div>
+            <% if (post.owner && !isOwner) { %>
+              <form action="/users/<%= post.owner._id %>/follow" method="POST" class="me-2">
+                <button class="btn btn-outline-secondary btn-sm" type="submit">
+                  <%= currentUser.following.some((id) => id.equals(post.owner._id)) ? "Unfollow" : "Follow" %>
+                </button>
+              </form>
+            <% } %>
+            <% if (isOwner) { %>
+              <div class="dropdown">
+                <button class="btn btn-light btn-sm border-0" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Post actions">
+                  <i class="fa-solid fa-ellipsis"></i>
+                </button>
+                <ul class="dropdown-menu dropdown-menu-end">
+                  <li><a class="dropdown-item" href="/feed/<%= post._id %>/edit">Edit post</a></li>
+                  <li><hr class="dropdown-divider" /></li>
+                  <li>
+                    <form action="/feed/<%= post._id %>?_method=DELETE" method="POST" onsubmit="return confirm('Delete this post?');">
+                      <button class="dropdown-item text-danger" type="submit">Delete post</button>
+                    </form>
+                  </li>
+                </ul>
+              </div>
+            <% } %>
+          </div>
+         
+          <div class="card-body">
+            <div class="content">
+               <p><%=post.content%></p>
+            </div>
+            <% if(post.image){ %>
+              <img src="<%=post.image%>"class="img-fluid rounded post-image"/>
+            <% } %>
+          </div>
+
+          <div class="card-footer bg-white">
+            <form class="d-inline" action="/feed/<%= post._id %>/like" method="POST">
+              <button class="btn btn-light like" type="submit" aria-label="Like post">
+                <i class="<%= post.likes.some((id) => id.equals(currentUser._id)) ? 'fa-solid' : 'fa-regular' %> fa-thumbs-up"></i>
+              </button>
+            </form>
+            <a class="btn btn-light" href="/feed/<%= post._id %>" aria-label="Open comments for this post">
+              <i class="fa-regular fa-comment"></i>
+            </a>
+            <span><%= post.likes.length %> like<%= post.likes.length === 1 ? "" : "s" %></span>
+          </div>
+        </div>
+      </div>
+     <% } %>
+    </div>
+  </main>
+</div>
+<%- include("../partials/createPost") %>
+

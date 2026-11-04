@@ -1,0 +1,61 @@
+<nav class="navbar navbar-expand-lg sticky-top">
+  <div class="container-fluid">
+    <a href="<%= currentUser ? '/feed' : '/' %>" aria-label="SkillNest home">
+      <img
+        class="brand"
+        src="/assets/WhatsApp Image 2026-08-15 at 10.54.48 PM (1).jpeg"
+        alt="SkillNest"
+      />
+    </a>
+
+    <button
+      class="navbar-toggler"
+      type="button"
+      data-bs-toggle="collapse"
+      data-bs-target="#navbarNav"
+      aria-controls="navbarNav"
+      aria-expanded="false"
+      aria-label="Toggle navigation"
+    >
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <% if (currentUser) { %>
+      <ul class="navbar-nav ms-auto">
+        <li class="home">
+          <a class="nav-link active" aria-current="page" href="/feed">Home</a>
+        </li>
+        <li class="feed">
+          <a class="nav-link active" href="/feed">Feed</a>
+        </li>
+      </ul>
+      <form class="d-flex ms-auto" role="search" action="/search" method="GET">
+        <input
+          class="form-control me-2 search-input"
+          type="search"
+          name="q"
+          placeholder="Search posts or people"
+          aria-label="Search posts or people"
+        />
+        <button class="btn search-btn" type="submit">Search</button>
+      </form>
+      <% } %>
+      <ul class="navbar-nav ms-auto">
+        <% if (currentUser) { %>
+          <li class="nav-item">
+            <button class="create createPostBtn" type="button">
+            <i class="fa-solid fa-plus">              
+            </i>Create Post</button></li>
+          <li class="nav-item nav-logout">
+            <form action="/auth/logout" method="POST">
+            <button class="nav-link active border-0 bg-transparent" type="submit">Logout</button>
+          </form>
+        </li>
+        <% } else { %>
+          <li class="sign"><a class="nav-link active" href="/auth/register">Sign up</a></li>
+          <li class="login"><a class="nav-link active" href="/auth/login">Login</a></li>
+        <% } %>
+      </ul>
+    </div>
+  </div>
+</nav>

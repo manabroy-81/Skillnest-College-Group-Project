@@ -1,0 +1,34 @@
+<% layout("layouts/boilerplate.ejs") %>
+<main class="container py-5" style="max-width: 900px">
+  <h1 class="h3">Search SkillNest</h1>
+  <form class="d-flex my-4" action="/search" method="GET">
+    <input class="form-control me-2" type="search" name="q" value="<%= query %>" placeholder="Search posts or people" required />
+    <button class="btn btn-primary">Search</button>
+  </form>
+  <% if (query) { %>
+    <p class="text-muted">Results for “<%= query %>”</p>
+    <h2 class="h5 mt-4">People (<%= users.length %>)</h2>
+    <% for (const user of users) { %>
+      <a class="card card-body mb-2 text-decoration-none text-dark d-flex flex-row align-items-center gap-3" href="/users/<%= user._id %>">
+        <img class="rounded-circle" width="48" height="48" src="<%= user.profileImage || '/assets/manab photo.jpeg' %>" alt="Profile image" />
+        <span>
+          <strong>
+            <%= user.fullName || user.username %>
+          </strong>
+          <small class="d-block text-muted">@<%= user.username %>
+            </small>
+          </span>
+      </a>
+    <% } %>
+    <h2 class="h5 mt-4">Posts (<%= posts.length %>)</h2>
+    <% for (const post of posts) { %>
+      <a class="card card-body mb-2 text-decoration-none text-dark" href="/feed/<%= post._id %>">
+        <strong><%= post.owner ? (post.owner.fullName || post.owner.username) : "SkillNest member" %></strong>
+        <span><%= post.content %></span>
+      </a>
+    <% } %>
+    <% if (!users.length && !posts.length) { %><p class="text-muted">No matching people or posts were found.</p><% } %>
+  <% } else { %>
+    <p class="text-muted">Enter a post topic or member name to search.</p>
+  <% } %>
+</main>

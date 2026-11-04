@@ -1,0 +1,113 @@
+<% layout("layouts/boilerplate.ejs") %>
+<main class="profile-editor container py-4 py-md-5">
+  <div class="profile-editor__heading">
+    <div>
+      <a class="profile-editor__back" href="/users/<%= profileUser._id %>"
+        >← Back to profile</a
+      >
+      <h1 class="fs-5 cent">Edit your profile</h1>
+    </div>
+    <span class="profile-editor__status"
+      ><i class="fa-solid fa-shield-halved"></i> Only you can edit this</span
+    >
+  </div>
+
+  <form
+    action="/users/<%= profileUser._id %>?_method=PUT"
+    method="POST"
+    class="profile-editor__card"
+  >
+    <section class="profile-editor__media">
+      <div class="profile-editor__banner-wrap">
+        <img
+          id="bannerImagePreview"
+          class="profile-editor__banner"
+          src="<%= profileUser.bannerImage || '/assets/microsoft.jpg' %>"
+          alt="Banner preview"
+        />
+        <label
+          class="profile-editor__upload profile-editor__upload--banner"
+          for="bannerUpload"
+          ><i class="fa-solid fa-camera"></i> Change banner</label
+        >
+        <input
+          id="bannerUpload"
+          class="visually-hidden"
+          type="file"
+          accept="image/png,image/jpeg,image/gif,image/webp"
+          data-image-target="#bannerImage"
+          data-image-preview="#bannerImagePreview"
+        />
+      </div>
+      <div class="profile-editor__avatar-wrap">
+        <img
+          id="profileImagePreview"
+          class="profile-editor__avatar"
+          src="<%= profileUser.profileImage || '/assets/manab photo.jpeg' %>"
+          alt="Profile photo preview"
+        />
+        <label
+          class="profile-editor__upload profile-editor__upload--avatar"
+          for="profileUpload"
+          ><i class="fa-solid fa-camera"></i
+          ><span class="visually-hidden">Change profile photo</span></label
+        >
+        <input
+          id="profileUpload"
+          class="visually-hidden"
+          type="file"
+          accept="image/png,image/jpeg,image/gif,image/webp"
+          data-image-target="#profileImage"
+          data-image-preview="#profileImagePreview"
+        />
+      </div>
+    </section>
+
+    <section class="profile-editor__section">
+      <div class="profile-editor__section-heading">
+        <h2>Profile details</h2>
+        <span>Tell people a little about you</span>
+      </div>
+      <div class="profile-editor__field">
+        <label for="fullName">Full name</label>
+        <input
+          id="fullName"
+          class="form-control"
+          name="user[fullName]"
+          value="<%= profileUser.fullName %>"
+          maxlength="80"
+          placeholder="Your name"
+        />
+      </div>
+      <div class="profile-editor__field">
+        <label for="bio">Bio <span>Optional</span></label>
+        <textarea
+          id="bio"
+          class="form-control"
+          name="user[bio]"
+          maxlength="300"
+          rows="4"
+          placeholder="Enter your bio?"
+        >
+<%= profileUser.bio %></textarea
+        >
+        <small>Up to 300 characters.</small>
+      </div>
+    </section>
+
+    <input id="profileImage" type="hidden" name="user[profileImage]" value="<%= profileUser.profileImage || '' %>" />
+    <input id="bannerImage" type="hidden" name="user[bannerImage]" value="<%= profileUser.bannerImage || '' %>" />
+
+    <div class="profile-editor__footer">
+      <small
+        ><i class="fa-solid fa-image"></i> PNG, JPEG, GIF, or WebP · maximum 2
+        MB</small
+      >
+      <div>
+        <button class="btn btn-primary ms-2" type="submit">
+          <i class="fa-solid fa-check"></i> Save changes
+        </button>
+      </div>
+    </div>
+  </form>
+</main>
