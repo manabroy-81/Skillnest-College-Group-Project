@@ -6,6 +6,11 @@ const postPreviewWrap = document.querySelector(".upload-area__preview");
 const removePostImage = document.querySelector(".upload-area__remove");
 const caption = document.querySelector("#caption");
 const captionCount = document.querySelector("#captionCount");
+const postShareStatus = document.querySelector("#postShareStatus");
+const shareButton = createPostForm?.querySelector(".share-btn");
+const shareButtonLabel = shareButton?.querySelector(".share-btn__label");
+const shareButtonLoading = shareButton?.querySelector(".share-btn__loading");
+let previewUrl;
 
 const setCreatePostOpen = (isOpen) => {
   if (!createOverlay) return;
@@ -15,6 +20,8 @@ const setCreatePostOpen = (isOpen) => {
 };
 
 const clearPostImage = () => {
+  if (previewUrl) URL.revokeObjectURL(previewUrl);
+  previewUrl = undefined;
   if (postImageUpload) postImageUpload.value = "";
   if (postImagePreview) postImagePreview.removeAttribute("src");
   if (postPreviewWrap) postPreviewWrap.hidden = true;
@@ -53,12 +60,12 @@ postImageUpload?.addEventListener("change", () => {
     return;
   }
 
-  const reader = new FileReader();
-  reader.addEventListener("load", () => {
-    if (postImagePreview) postImagePreview.src = reader.result;
-    if (postPreviewWrap) postPreviewWrap.hidden = false;
-  });
-  reader.readAsDataURL(file);
+  if (previewUrl) URL.revokeObjectURL(previewUrl);
+  previewUrl = URL.createObjectURL(file);
+  if (postImagePreview) postImagePreview.src = previewUrl;
+  if (postPreviewWrap) postPreviewWrap.hidden = false;
+  if (postShareStatus)
+    postShareStatus.textContent = "Your image will upload when you share.";
 });
 
 removePostImage?.addEventListener("click", clearPostImage);
@@ -68,4 +75,19 @@ createPostForm?.addEventListener("reset", () => {
     clearPostImage();
     if (captionCount) captionCount.textContent = "0 / 1000";
   });
+});
+
+createPostForm?.addEventListener("submit", (event) => {
+  if (!createPostForm.checkValidity() || !shareButton) return;
+
+  shareButton.disabled = true;
+  shareButtonLabel.hidden = true;
+  shareButtonLoading.hidden = false;
+  if (postShareStatus) {
+    postShareStatus.textContent = postImageUpload?.files.length
+      ? "Uploading image and sharing your post…"
+      : "Sharing your post…";
+  }
+  createOverlay?.setAttribute("aria-busy", "true");
+  event.currentTarget.querySelector(".close-btn")?.setAttribute("disabled", "");
 });

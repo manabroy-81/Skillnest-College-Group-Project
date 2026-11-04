@@ -6,6 +6,7 @@ const session = require("express-session");
 const { default: MongoStore } = require("connect-mongo");
 const ejsMate = require("ejs-mate");
 const ExpressError = require("./utils/expressError");
+const connectDB = require("./config/db");
 const passport = require("./config/passport");
 const postRoutes = require("./routes/posts");
 const commentRoutes = require("./routes/comments");
@@ -23,13 +24,32 @@ app.use(express.json());
 app.use(methodOverride("_method"));
 const sessionSecret =
   process.env.SESSION_SECRET || crypto.randomBytes(32).toString("hex");
-const mongoUrl = process.env.MONGO_URL || "mongodb://127.0.0.1:27017/skillnest";
+const mongoUrl = connectDB.getMongoUrl();
 if (!process.env.SESSION_SECRET) {
   console.warn(
     "SESSION_SECRET is missing. A temporary secret is being used; sessions will reset whenever the server restarts.",
   );
 }
 if (process.env.NODE_ENV === "production") app.set("trust proxy", 1);
+
+// Vercel imports this file directly and does not run server.js. Starting the
+// connection here and waiting for it per request prevents Mongoose operations
+// from buffering and timing out on a cold serverless function.
+connectDB().catch(() => {});
+app.use(async (req, res, next) => {
+  try {
+    await connectDB();
+    next();
+  } catch (error) {
+    next(
+      new ExpressError(
+        "The database is temporarily unavailable. Please try again shortly.",
+        503,
+      ),
+    );
+  }
+});
+
 app.use(
   session({
     secret: sessionSecret,

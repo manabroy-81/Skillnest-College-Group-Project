@@ -47,10 +47,13 @@
 .create-footer { align-items: center; border-top: 1px solid #eef1f5; color: #64748b; display: flex; font-size: .76rem; justify-content: space-between; padding: 1rem 1.25rem; }
 .create-footer > span i { color: #060806; margin-right: .25rem; }
 .create-footer__actions { display: flex; gap: .55rem; }
+.create-post__status { align-self: center; color: #64748b; font-size: .72rem; max-width: 180px; text-align: right; }
 .reset-btn { background: transparent; border: 0; border-radius: 8px; color: #64748b; font-size: .86rem; font-weight: 600; padding: .55rem .75rem; }
 .reset-btn:hover { background: #f1f5f9; color: #334155; }
 .share-btn { background: #047d39; border: 0; border-radius: 8px; color: #fff; font-size: .86rem; font-weight: 600; padding: .55rem .85rem; }
 .share-btn:hover { background: #ee5050; }
+.share-btn:disabled { background: #6b7280; cursor: wait; opacity: .9; }
+.share-btn__loading { white-space: nowrap; }
 .edit-post { border-bottom: 2px solid #ddd; }
 
 /* Edit post page */
@@ -86,14 +89,15 @@
 .post-editor__footer { align-items: center; border-top: 1px solid #edf0f4; display: flex; justify-content: flex-end; gap: .7rem; margin: 1.5rem -1.5rem -1.5rem; padding: 1rem 1.5rem; }
 .post-editor__cancel { border-radius: 8px; color: #64748b; font-size: .86rem; font-weight: 600; padding: .55rem .75rem; text-decoration: none; }
 .post-editor__cancel:hover { background: #f1f5f9; color: #334155; }
-.post-editor__save { background: #4f46e5; border: 0; border-radius: 8px; color: #fff; font-size: .86rem; font-weight: 600; padding: .6rem .9rem; }
-.post-editor__save:hover { background: #4338ca; }
+.post-editor__save { background: #150c0c; border: 0; border-radius: 8px; color: #fff; font-size: .86rem; font-weight: 600; padding: .6rem .9rem; }
+.post-editor__save:hover { background: #ff4f49; }
 @media (max-width: 575.98px) {
   .create-content { grid-template-columns: 1fr; padding: 1rem; }
   .post-details textarea { min-height: 130px; }
   .upload-area, .upload-area__label, .upload-area__preview, .upload-area__preview img { min-height: 180px; }
   .create-footer { align-items: flex-start; flex-direction: column; gap: .75rem; padding: 1rem; }
   .create-footer__actions { align-self: flex-end; }
+  .create-post__status { max-width: 150px; }
   .post-editor { padding-left: .8rem; padding-right: .8rem; }
   .post-editor__header, .post-editor__form { padding: 1rem; }
   .post-editor__header-icon { display: none; }
@@ -108,5 +112,7 @@
   .user-info h1 { max-width: 190px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
   .create-footer__actions { align-self: stretch; }
   .share-btn { width: 100%; }
+  .create-footer__actions { flex-wrap: wrap; }
+  .create-post__status { flex-basis: 100%; max-width: none; text-align: center; }
   .post-editor__footer { align-items: center; }
 }

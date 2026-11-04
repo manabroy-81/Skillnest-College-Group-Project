@@ -29,4 +29,6 @@
 .profile-editor__advanced p { color:#77808d; font-size:.85rem; margin:1rem 0; }
 .profile-editor__footer { display:flex; justify-content:space-between; gap:1rem; align-items:center; padding:1.2rem 2rem; background:#fafbfc; border-top:1px solid #edf0f4; color:#77808d; }
 .profile-editor__footer small { font-size:.78rem; }
-@media (max-width:576px) { .profile-editor__heading, .profile-editor__footer { align-items:flex-start; flex-direction:column; } .profile-editor__banner-wrap { height:160px; } .profile-editor__avatar-wrap { left:20px; } .profile-editor__section, .profile-editor__advanced, .profile-editor__footer { padding-left:1.2rem; padding-right:1.2rem; } .profile-editor__section-heading { display:block; } .profile-editor__section-heading span { display:block; margin-top:.25rem; } }
+@media (max-width:576px) { .profile-editor__heading, .profile-editor__footer { align-items:flex-start; flex-direction:column; } .profile-editor__banner-wrap { height:160px; }
+.profile-editor__avatar-wrap { left:20px; } .profile-editor__section, .profile-editor__advanced, .profile-editor__footer { padding-left:1.2rem; padding-right:1.2rem; }
+.profile-editor__section-heading { display:block; } .profile-editor__section-heading span { display:block; margin-top:.25rem; } }

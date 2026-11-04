@@ -5,6 +5,12 @@
 
   <!-- Main Content -->
   <main id="main-content">
+    <% if (postCreated) { %>
+      <div class="alert alert-success alert-dismissible fade show feed-notice" role="status">
+        Your post has been shared with the SkillNest community.
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+      </div>
+    <% } %>
     <div class="row">
       <button
         id="show-sidebar-btn"
@@ -27,6 +33,8 @@
                 class="rounded-circle"
                 width="50"
                 height="50"
+                loading="lazy"
+                decoding="async"
                 alt="<%= post.owner ? (post.owner.fullName || post.owner.username) : 'SkillNest member' %>'s profile image"
               />
               <div class="ms-3">
@@ -71,7 +79,7 @@
                <p><%=post.content%></p>
             </div>
             <% if(post.image){ %>
-              <img src="<%=post.image%>"class="img-fluid rounded post-image"/>
+              <img src="<%= post.image %>" class="img-fluid rounded post-image" loading="lazy" decoding="async" alt="Image shared with this post" />
             <% } %>
           </div>
 
@@ -90,6 +98,25 @@
       </div>
      <% } %>
     </div>
+    <% if (pagination.totalPages > 1) { %>
+      <nav class="feed-pagination" aria-label="Feed pages">
+        <% if (pagination.hasPrevious) { %>
+          <a class="btn btn-outline-secondary" href="/feed?page=<%= pagination.currentPage - 1 %>">
+            <i class="fa-solid fa-arrow-left" aria-hidden="true"></i> Newer posts
+          </a>
+        <% } else { %>
+          <span></span>
+        <% } %>
+        <span>Page <%= pagination.currentPage %> of <%= pagination.totalPages %></span>
+        <% if (pagination.hasNext) { %>
+          <a class="btn btn-outline-secondary" href="/feed?page=<%= pagination.currentPage + 1 %>">
+            Older posts <i class="fa-solid fa-arrow-right" aria-hidden="true"></i>
+          </a>
+        <% } else { %>
+          <span></span>
+        <% } %>
+      </nav>
+    <% } %>
   </main>
 </div>
 <%- include("../partials/createPost") %>

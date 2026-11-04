@@ -92,8 +92,7 @@
   .content{
     display: -webkit-box;
     -webkit-box-orient: vertical;
-    -webkit-line-clamp: 3;
-    min-height: 80px;
+    -webkit-line-clamp:3;  
     overflow: hidden;
   }
 .post-image{
@@ -101,6 +100,10 @@
     height:250px;
     object-fit:cover;
 }
+.feed-notice { margin-bottom: 1rem; }
+.feed-pagination { align-items: center; display: grid; gap: .75rem; grid-template-columns: 1fr auto 1fr; margin: .5rem 0 1.5rem; text-align: center; }
+.feed-pagination > :last-child { justify-self: end; }
+.feed-pagination > :first-child { justify-self: start; }
 .card-footer button{
   font-size: 20px;
 
@@ -143,9 +146,9 @@
 .comments-card__heading > i { color: #c7d2fe; font-size: 1.5rem; }
 .comment-composer { display: flex; gap: .65rem; margin-bottom: 1.15rem; }
 .comment-composer .form-control { border-color: #dce1e9; border-radius: 10px; box-shadow: none; min-height: 44px; }
-.comment-composer .form-control:focus { border-color: #818cf8; box-shadow: 0 0 0 .2rem rgba(99, 102, 241, .12); }
-.comment-composer__submit { align-items: center; background: #4f46e5; border: 0; border-radius: 10px; color: #fff; display: inline-flex; font-size: .88rem; font-weight: 600; gap: .45rem; padding: 0 .95rem; }
-.comment-composer__submit:hover { background: #4338ca; color: #fff; }
+.comment-composer .form-control:focus { border-color: #0b0c0d; box-shadow: 0 0 0 .2rem rgba(99, 102, 241, .12); }
+.comment-composer__submit { align-items: center; background: #ff308a; border: 0; border-radius: 10px; color: #fff; display: inline-flex; font-size: .88rem; font-weight: 600; gap: .45rem; padding: 0 .95rem; }
+.comment-composer__submit:hover { background: #0a0a0d; color: #fff; }
 .comments-card__login { align-items: center; background: #f8fafc; border-radius: 10px; color: #64748b; display: flex; font-size: .9rem; gap: .6rem; margin-bottom: 1.15rem; padding: .9rem 1rem; }
 .comments-card__login i { color: #818cf8; }
 .comments-card__login a { color: #4f46e5; font-weight: 700; text-decoration: none; }
@@ -192,6 +195,8 @@
   #main-content, #main-content.full { padding: .75rem; }
   .post-card:hover { transform: none; }
   .post-image { height: 210px; }
+  .feed-pagination { font-size: .82rem; gap: .35rem; }
+  .feed-pagination .btn { font-size: .78rem; padding: .4rem .55rem; }
   .post-card .card-header { gap: .5rem; padding: .8rem; }
   .post-card .card-header img { height: 40px !important; width: 40px !important; }
   .post-card .card-body { padding: .85rem; }

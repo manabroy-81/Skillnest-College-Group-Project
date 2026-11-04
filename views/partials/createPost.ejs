@@ -38,8 +38,11 @@
         <footer class="create-footer">
           <span><i class="fa-solid fa-lock" aria-hidden="true"></i> Visible to the SkillNest community</span>
           <div class="create-footer__actions">
-           
-            <button class="share-btn" type="submit">Share post</button>
+            <span class="create-post__status" id="postShareStatus" role="status" aria-live="polite"></span>
+            <button class="share-btn" type="submit">
+              <span class="share-btn__label">Share post</span>
+              <span class="share-btn__loading" hidden><i class="fa-solid fa-spinner fa-spin" aria-hidden="true"></i> Sharing…</span>
+            </button>
           </div>
         </footer>
       </section>
