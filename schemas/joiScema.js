@@ -73,7 +73,10 @@ const profileSchema = Joi.object({
 });
 
 const searchSchema = Joi.object({
-  q: Joi.string().trim().max(100).allow("", null).default(""),
+  q: Joi.string().trim().min(2).max(100).allow("").default("").messages({
+    "string.min": "Search must contain at least 2 characters.",
+    "string.max": "Search cannot exceed 100 characters.",
+  }),
 });
 
 module.exports = {

@@ -1,27 +1,76 @@
 <% layout("layouts/boilerplate.ejs") %>
-<main class="container py-5" style="max-width: 720px">
-  <a href="/users/<%= profileUser._id %>" class="text-decoration-none">← Back to profile</a>
-  <h1 class="h3 mt-3"><%= profileUser.fullName || profileUser.username %>'s <%= type %></h1>
-  <section class="card shadow-sm mt-3">
-    <% for (const user of users) { %>
-      <div class="card-body border-bottom d-flex align-items-center gap-3">
-        <% if (user.profileImage) { %>
-          <img src="<%= user.profileImage %>" class="rounded-circle" width="48" height="48" alt="Profile image" />
-          <% } %>
-        <div class="flex-grow-1">
-          <a class="fw-semibold text-decoration-none" href="/users/<%= user._id %>"><%= user.fullName || user.username %>
-          </a>
-          <small class="d-block text-muted">@<%= user.username %>
-          </small>
-        </div>
-        <% if (currentUser && !currentUser._id.equals(user._id)) { %>
-          <form action="/users/<%= user._id %>/follow" method="POST">
-            <button class="btn btn-sm btn-outline-primary"><%= currentUser.following.some((id) => id.equals(user._id)) ? "Unfollow" : "Follow" %>
-            </button>
-          </form>
-          <% } %>
+<% const displayName = profileUser.fullName || profileUser.username; %>
+<% const isFollowingList = type === "following"; %>
+
+<main class="connections-page">
+  <div class="connections-shell">
+    <a href="/users/<%= profileUser._id %>" class="connections-back"><i class="fa-solid fa-arrow-left" aria-hidden="true"></i> Back to profile</a>
+
+    <section class="connections-profile" aria-labelledby="connections-title">
+      <img src="<%= profileUser.profileImage || '/assets/manab photo.jpeg' %>" alt="<%= displayName %>'s profile image" />
+      <div>
+        <!-- <p>Community connections</p> -->
+        <h1 id="connections-title"><%= displayName %></h1>
+        <span>@<%= profileUser.username %></span>
       </div>
-    <% } %>
-    <% if (!users.length) { %><div class="card-body text-muted">No <%= type %> yet.</div><% } %>
-  </section>
+    </section>
+
+    <nav class="connections-tabs" aria-label="Connection lists">
+      <a class="connections-tab <%= type === 'followers' ? 'is-active' : '' %>" href="/users/<%= profileUser._id %>/followers">
+        <i class="fa-solid fa-user-group" aria-hidden="true"></i> Followers <strong><%= profileUser.followers.length %></strong>
+      </a>
+      <a class="connections-tab <%= isFollowingList ? 'is-active' : '' %>" href="/users/<%= profileUser._id %>/following">
+        <i class="fa-solid fa-arrow-right-arrow-left" aria-hidden="true"></i> Following <strong><%= profileUser.following.length %></strong>
+      </a>
+    </nav>
+
+    <section class="connections-list" aria-labelledby="list-heading">
+      <div class="connections-list__heading">
+        <div>
+          <p><%= isFollowingList ? 'People they keep up with' : 'People following their journey' %></p>
+          <h2 id="list-heading"><%= isFollowingList ? 'Following' : 'Followers' %></h2>
+        </div>
+        <span><%= users.length %> <%= users.length === 1 ? 'member' : 'members' %></span>
+      </div>
+
+      <% if (users.length) { %>
+        <div class="connections-list__members">
+          <% for (const user of users) { %>
+            <% const isCurrentUser = currentUser && currentUser._id.equals(user._id); %>
+            <% const currentlyFollowing = currentUser && currentUser.following.some((id) => id.equals(user._id)); %>
+            <article class="connection-card">
+              <a class="connection-card__profile" href="/users/<%= user._id %>" aria-label="View <%= user.fullName || user.username %>'s profile">
+                <img src="<%= user.profileImage || '/assets/manab photo.jpeg' %>" alt="<%= user.fullName || user.username %>'s profile image" loading="lazy" decoding="async" />
+                <span>
+                  <strong><%= user.fullName || user.username %></strong>
+                  <small>@<%= user.username %></small>
+                  <% if (user.bio) { %><em><%= user.bio %></em><% } %>
+                </span>
+              </a>
+              <div class="connection-card__actions">
+                <% if (!isCurrentUser) { %>
+                  <form action="/users/<%= user._id %>/follow" method="POST">
+                    <button class="connection-follow <%= currentlyFollowing ? 'is-following' : '' %>" type="submit">
+                      <i class="fa-solid <%= currentlyFollowing ? 'fa-check' : 'fa-user-plus' %>" aria-hidden="true"></i>
+                      <%= currentlyFollowing ? 'Following' : 'Follow' %>
+                    </button>
+                  </form>
+                <% } else { %>
+                  <span class="connection-you">You</span>
+                <% } %>
+                <a href="/users/<%= user._id %>" class="connection-card__open" aria-label="Open profile"><i class="fa-solid fa-chevron-right" aria-hidden="true"></i></a>
+              </div>
+            </article>
+          <% } %>
+        </div>
+      <% } else { %>
+        <div class="connections-empty">
+          <div><i class="fa-solid <%= isFollowingList ? 'fa-user-plus' : 'fa-users' %>" aria-hidden="true"></i></div>
+          <h3>No <%= type %> yet</h3>
+          <p><%= isFollowingList ? `${displayName} has not followed anyone yet.` : `No one is following ${displayName} yet.` %></p>
+          <a href="/feed"><i class="fa-solid fa-compass" aria-hidden="true"></i> Explore the community</a>
+        </div>
+      <% } %>
+    </section>
+  </div>
 </main>

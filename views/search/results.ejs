@@ -1,34 +1,95 @@
 <% layout("layouts/boilerplate.ejs") %>
-<main class="container py-5" style="max-width: 900px">
-  <h1 class="h3">Search SkillNest</h1>
-  <form class="d-flex my-4" action="/search" method="GET">
-    <input class="form-control me-2" type="search" name="q" value="<%= query %>" placeholder="Search posts or people" required />
-    <button class="btn btn-primary">Search</button>
-  </form>
-  <% if (query) { %>
-    <p class="text-muted">Results for “<%= query %>”</p>
-    <h2 class="h5 mt-4">People (<%= users.length %>)</h2>
-    <% for (const user of users) { %>
-      <a class="card card-body mb-2 text-decoration-none text-dark d-flex flex-row align-items-center gap-3" href="/users/<%= user._id %>">
-        <img class="rounded-circle" width="48" height="48" src="<%= user.profileImage || '/assets/manab photo.jpeg' %>" alt="Profile image" />
-        <span>
-          <strong>
-            <%= user.fullName || user.username %>
-          </strong>
-          <small class="d-block text-muted">@<%= user.username %>
-            </small>
-          </span>
-      </a>
+
+<main class="search-page">
+  <section class="search-hero" aria-labelledby="search-page-title">
+    <div class="search-hero__eyebrow"><i class="fa-solid fa-compass" aria-hidden="true"></i> Discover SkillNest</div>
+    <h1 id="search-page-title">Find your next <span>connection.</span></h1>
+    <p>Explore people, ideas, and conversations shared by your community.</p>
+
+    <form class="search-form" action="/search" method="GET" role="search">
+      <label class="visually-hidden" for="search-query">Search posts or people</label>
+      <i class="fa-solid fa-magnifying-glass search-form__icon" aria-hidden="true"></i>
+      <input id="search-query" type="search" name="q" value="<%= query %>" placeholder="Search people, topics, or posts..." autocomplete="off" minlength="2" required />
+      <% if (query) { %>
+        <a class="search-form__clear" href="/search" aria-label="Clear search"><i class="fa-solid fa-xmark" aria-hidden="true"></i></a>
+      <% } %>
+      <button type="submit">Search <i class="fa-solid fa-arrow-right" aria-hidden="true"></i></button>
+    </form>
+  </section>
+
+  <section class="search-results" aria-live="polite">
+    <% if (query) { %>
+      <% const totalResults = users.length + posts.length; %>
+      <div class="search-results__summary border p-4">
+        <div>
+          <p class="search-results__label">Search results...</p>
+          <h2> <span><%= query %></span></h2>
+        </div>
+        <span class="search-results__count"><%= totalResults %> <%= totalResults === 1 ? "result" : "results" %></span>
+      </div>
+
+      <% if (users.length) { %>
+        <section class="result-section" aria-labelledby="people-heading">
+          <div class="result-section__heading">
+            <div class="result-section__icon result-section__icon--people"><i class="fa-solid fa-users" aria-hidden="true"></i></div>
+            <div><h3 id="people-heading">People</h3><p>Members who match your search</p></div>
+            <span><%= users.length %></span>
+          </div>
+          <div class="people-results">
+            <% for (const user of users) { %>
+              <a class="person-result" href="/users/<%= user._id %>">
+                <img src="<%= user.profileImage || '/assets/manab photo.jpeg' %>" alt="<%= user.fullName || user.username %>'s profile image" loading="lazy" decoding="async" />
+                <span class="person-result__details">
+                  <strong><%= user.fullName || user.username %></strong>
+                  <small>@<%= user.username %></small>
+                  <% if (user.bio) { %><em><%= user.bio %></em><% } %>
+                </span>
+                <i class="fa-solid fa-arrow-up-right-from-square person-result__arrow" aria-hidden="true"></i>
+              </a>
+            <% } %>
+          </div>
+        </section>
+      <% } %>
+
+      <% if (posts.length) { %>
+        <section class="result-section" aria-labelledby="posts-heading">
+          <div class="result-section__heading">
+            <div class="result-section__icon result-section__icon--posts"><i class="fa-solid fa-message" aria-hidden="true"></i></div>
+            <div><h3 id="posts-heading">Posts</h3><p>Conversations from the community</p></div>
+            <span><%= posts.length %></span>
+          </div>
+          <div class="post-results">
+            <% for (const post of posts) { %>
+              <a class="post-result" href="/feed/<%= post._id %>">
+                <div class="post-result__author">
+                  <img src="<%= post.owner && post.owner.profileImage ? post.owner.profileImage : '/assets/manab photo.jpeg' %>" alt="" loading="lazy" decoding="async" />
+                  <span><strong><%= post.owner ? (post.owner.fullName || post.owner.username) : "SkillNest member" %></strong><small><%= post.owner ? "@" + post.owner.username : "Community post" %></small></span>
+                </div>
+                <p><%= post.content %></p>
+                <span class="post-result__footer">Open post <i class="fa-solid fa-arrow-right" aria-hidden="true"></i></span>
+              </a>
+            <% } %>
+          </div>
+        </section>
+      <% } %>
+
+      <% if (!users.length && !posts.length) { %>
+        <div class="search-empty">
+          <div class="search-empty__illustration"><i class="fa-solid fa-magnifying-glass" aria-hidden="true"></i></div>
+          <h3>No results just yet</h3>
+          <p>We couldn't find a person or post for “<%= query %>”. Try a different spelling or a broader topic.</p>
+          <a href="/search" class="search-empty__link">Start a new search <i class="fa-solid fa-arrow-right" aria-hidden="true"></i></a>
+        </div>
+      <% } %>
+    <% } else { %>
+      <div class="search-empty search-empty--start">
+        <div class="search-empty__illustration"><i class="fa-solid fa-sparkles" aria-hidden="true"></i></div>
+        <h2>What would you like to discover?</h2>
+        <p>Search by a member's name, a skill, or a topic that inspires you.</p>
+        <div class="search-suggestions" aria-label="Suggested searches">
+          <span>Try searching:</span><a href="/search?q=javascript">JavaScript</a><a href="/search?q=design">Design</a><a href="/search?q=career">Career</a>
+        </div>  
+      </div>
     <% } %>
-    <h2 class="h5 mt-4">Posts (<%= posts.length %>)</h2>
-    <% for (const post of posts) { %>
-      <a class="card card-body mb-2 text-decoration-none text-dark" href="/feed/<%= post._id %>">
-        <strong><%= post.owner ? (post.owner.fullName || post.owner.username) : "SkillNest member" %></strong>
-        <span><%= post.content %></span>
-      </a>
-    <% } %>
-    <% if (!users.length && !posts.length) { %><p class="text-muted">No matching people or posts were found.</p><% } %>
-  <% } else { %>
-    <p class="text-muted">Enter a post topic or member name to search.</p>
-  <% } %>
+  </section>
 </main>
