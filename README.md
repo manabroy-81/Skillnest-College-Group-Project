@@ -175,6 +175,7 @@ node init/index.js
 
 - **Manab Roy** - [GitHub](https://github.com/manabroy-81) - *Frontend,Backend*
 - *Bibek* - [GitHub](https://github.com/teammate-username) - *UI,UX*
+- *Vivek*-[GitHub]
 
 
 ## License
